@@ -1,0 +1,97 @@
+package Replay1;
+
+import ui.OthelloReplayUserInterface;
+import ui.UserInterfaceFactory;
+import java.util.Scanner;
+import java.io.PrintStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+class Replay1 { 
+    // Name       : W.J.R. Budding
+    // Assignment : Replay1
+    // Date       : 2016-09-25
+	//functions	  : ui.WHITE/BLACK, ui.NUMBER_OF_COLLUMS/ROWS, ui.ShowChanges, ui.wait
+	// questions  : How to import file, entering or just reading
+	//				When calling method, you put in variables, do you define the parameters (after the method), 
+	//				or in the method
+	//				What is expected. should i delete the stones based on the rules of othello or just move
+	
+	PrintStream out;
+	OthelloReplayUserInterface ui;
+
+	Replay1(){
+		out = new PrintStream(System.out);
+		ui = UserInterfaceFactory.getOthelloReplayUI();
+		
+	}
+	int charToNmbr(char letter){
+		int nr;
+		int pos = letter - 'a' ;
+		return pos;
+	}
+	int blackWhite(String col){
+		int c;
+		if (col.equals("white")){
+			c=1;
+		}else{
+			c=2;
+		}
+		return c;
+	}
+	
+	String[] splitString(String line){
+		String[] splay = line.split("\\s+");
+		return splay;
+	}
+	
+	void play(String splay[]){
+		if (splay[2].equals("move")){
+			int player = blackWhite(splay[0]);
+			ui.place((charToNmbr(splay[3].charAt(0))) ,Integer.parseInt(splay[4])-1, player);
+			ui.wait(Integer.parseInt(splay[1]));}
+	}
+	
+	
+	void start(){
+
+		String startGame[] = splitString("white	0	move d 4");
+		play(startGame); 
+		String startGame1[] = splitString("white	0	move e 5");
+		play(startGame1);
+		String startGame2[] = splitString("black	0	move d 5");
+		play(startGame2);
+		String startGame3[] = splitString("black	0	move e 4");
+		play(startGame3);
+		ui.showChanges();
+		Scanner fileIn= null;
+		try{
+		     fileIn = new Scanner(new FileInputStream("/Users/wesleybudding/Documents/Boeken/Vu - school/vu java/Replay1Input.txt"));// <-path to file
+		}catch (FileNotFoundException e){
+			  System.out.println("File not found.");
+			  System.exit(0);
+		}
+
+		int count=0;
+
+		while(fileIn.hasNextLine()){
+		String splay[]= splitString(fileIn.nextLine());
+		play(splay);
+		ui.showChanges();
+		count++;
+
+		}
+	
+		out.println("done " + count);
+
+
+
+	}
+
+	public static void main(String[] args) {
+		
+		new Replay1().start();
+
+	}
+
+}

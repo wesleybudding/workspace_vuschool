@@ -1,0 +1,27 @@
+package SecondSmallest;
+
+import java.io.PrintStream;
+
+public class SecondSmallest {
+
+    // Name       : W.J.R. Budding
+    // Assignment : SecondSmallest
+    // Date       : 13-09-2016
+	
+	PrintStream out;
+	
+	SecondSmallest(){
+		out = new PrintStream(System.out);
+	}
+	
+	void start(){
+		int a;
+		a = (int) 1 + (10*Math.random());
+		out.printf("test", a);
+	}
+	
+	public static void main(String[] args) {
+		new SecondSmallest().start();
+	}
+
+}
